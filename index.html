@@ -38,7 +38,7 @@
             </div>
 
             <!-- Alert Message Box -->
-            <div id="alert-box" class="hidden mb-4 p-3.5 rounded-xl text-sm flex items-start space-x-2">
+            <div id="alert-box" class="hidden mb-4 p-3.5 rounded-xl text-sm flex items-start space-x-2 transition-all">
                 <i id="alert-icon" class="fa-solid text-base mt-0.5"></i>
                 <div id="alert-text" class="flex-1"></div>
             </div>
@@ -74,14 +74,14 @@
 
     <script>
         // ==========================================
-        // KONFIGURASI SUPABASE (Ganti dengan Milik Anda)
+        // KONFIGURASI SUPABASE
         // ==========================================
-        const SUPABASE_URL = "https://vdczmsqfldfduidoqfyh.supabase.co"; // Ganti dengan Project URL Anda
-        const SUPABASE_KEY = "sb_publishable_AztuesOkEMatEixFop8RSQ_yDoszYIV";        // Ganti dengan Publishable/Anon Key Anda
+        const SUPABASE_URL = "https://vdczmsqfldfduidoqfyh.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_AztuesOkEMatEixFop8RSQ_yDoszYIV";
 
         // Inisialisasi Supabase Client
         let supabase = null;
-        if (SUPABASE_URL !== "https://PROJECT_ID.supabase.co" && SUPABASE_KEY !== "YOUR_SUPABASE_ANON_KEY") {
+        if (window.supabase && SUPABASE_URL && SUPABASE_KEY) {
             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         }
 
@@ -90,18 +90,20 @@
         // Periksa Sesi Login Saat Halaman Dimuat
         document.addEventListener('DOMContentLoaded', async () => {
             if (!supabase) {
-                showAlert('Konfigurasi Supabase URL dan Key belum diisi pada file index.html', 'error');
+                showAlert('Gagal menghubungkan ke Supabase. Periksa pustaka CDN dan kredensial Anda.', 'error');
                 return;
             }
 
             try {
-                const { data: { session } } = await supabase.auth.getSession();
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) throw error;
+
                 if (session) {
-                    // Jika sudah login, langsung arahkan ke dashboard
+                    // Jika pengguna sudah login, alihkan otomatis ke dashboard
                     window.location.href = 'dashboard.html';
                 }
             } catch (err) {
-                console.error("Gagal memeriksa sesi:", err);
+                console.error("Gagal memeriksa sesi login:", err.message);
             }
         });
 
@@ -130,7 +132,7 @@
             event.preventDefault();
 
             if (!supabase) {
-                showAlert('Isi terlebih dahulu SUPABASE_URL dan SUPABASE_KEY di file index.html', 'error');
+                showAlert('Koneksi ke Supabase belum siap.', 'error');
                 return;
             }
 
@@ -142,7 +144,7 @@
 
             try {
                 if (currentMode === 'login') {
-                    // Proses Login
+                    // Proses Autentikasi Login
                     const { data, error } = await supabase.auth.signInWithPassword({
                         email: email,
                         password: password
@@ -150,13 +152,13 @@
 
                     if (error) throw error;
 
-                    showAlert('Login berhasil! Mengalihkan...', 'success');
+                    showAlert('Berhasil masuk! Pengalihan ke dashboard...', 'success');
                     setTimeout(() => {
                         window.location.href = 'dashboard.html';
-                    }, 1000);
+                    }, 800);
 
                 } else {
-                    // Proses Registrasi
+                    // Proses Registrasi Pengguna Baru
                     const { data, error } = await supabase.auth.signUp({
                         email: email,
                         password: password
@@ -164,31 +166,39 @@
 
                     if (error) throw error;
 
-                    // Jika opsi email confirmation aktif di Supabase
+                    // Jika opsi Konfirmasi Email aktif di Supabase Dashboard
                     if (data?.user && data?.session === null) {
-                        showAlert('Registrasi berhasil! Silakan periksa inbox email Anda untuk verifikasi.', 'info');
+                        showAlert('Pendaftaran berhasil! Silakan periksa inbox/spam email Anda untuk verifikasi akun.', 'info');
                     } else {
-                        showAlert('Registrasi berhasil! Mengalihkan ke dashboard...', 'success');
+                        showAlert('Pendaftaran berhasil! Mengalihkan ke dashboard...', 'success');
                         setTimeout(() => {
                             window.location.href = 'dashboard.html';
-                        }, 1200);
+                        }, 1000);
                     }
                 }
             } catch (err) {
-                showAlert(err.message || 'Terjadi kesalahan pada autentikasi', 'error');
+                let errorMsg = err.message || 'Terjadi kesalahan pada proses autentikasi';
+                if (err.message.includes('Invalid login credentials')) {
+                    errorMsg = 'Email atau kata sandi tidak valid.';
+                } else if (err.message.includes('User already registered')) {
+                    errorMsg = 'Email ini sudah terdaftar. Silakan lakukan Login.';
+                }
+                showAlert(errorMsg, 'error');
             } finally {
                 setLoading(false);
             }
         }
 
-        // Helper Tampilan Alert Box
+        // Helper Alert Notification UI
         function showAlert(message, type) {
             const alertBox = document.getElementById('alert-box');
             const alertText = document.getElementById('alert-text');
             const alertIcon = document.getElementById('alert-icon');
 
             alertText.innerText = message;
-            alertBox.classList.remove('hidden', 'bg-red-500/10', 'text-red-400', 'border-red-500/20', 'bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/20', 'bg-amber-500/10', 'text-amber-400', 'border-amber-500/20');
+            alertBox.classList.remove('hidden', 'bg-red-500/10', 'text-red-400', 'border-red-500/20', 
+                                     'bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/20', 
+                                     'bg-amber-500/10', 'text-amber-400', 'border-amber-500/20');
 
             if (type === 'error') {
                 alertBox.classList.add('bg-red-500/10', 'text-red-400', 'border', 'border-red-500/20');
@@ -206,7 +216,7 @@
             document.getElementById('alert-box').classList.add('hidden');
         }
 
-        // Helper Loading State Button
+        // Helper Loading Spinner State
         function setLoading(isLoading) {
             const btnSubmit = document.getElementById('btn-submit');
             const btnSpinner = document.getElementById('btn-spinner');
