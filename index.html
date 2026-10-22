@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ruang Hari — Jadwal Keseharian</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#20283b;--muted:#7d879b;--line:#e9edf4;--purple:#6558d3;--purple2:#eeeaff;--green:#22a06b;--orange:#e99a43;--blue:#4b8fe8;--shadow:0 12px 32px rgba(39,48,77,.06)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}.sidebar{background:#fff;border-right:1px solid var(--line);padding:28px 18px;display:flex;flex-direction:column;gap:32px}.brand{display:flex;align-items:center;gap:11px;padding:0 8px;font-weight:800;font-size:19px}.brand-icon{width:38px;height:38px;border-radius:13px;background:var(--purple);color:white;display:grid;place-items:center;font-size:20px;box-shadow:0 6px 14px #6558d344}.nav-label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#a0a8b8;padding:0 12px;margin-bottom:10px}.nav{display:grid;gap:6px}.nav button{border:0;background:transparent;text-align:left;padding:12px;border-radius:12px;color:#737e93;display:flex;align-items:center;gap:12px;font-size:13px;font-weight:650}.nav button.active,.nav button:hover{background:var(--purple2);color:var(--purple)}.nav .ico{width:20px;text-align:center;font-size:17px}.side-note{margin-top:auto;background:#f7f5ff;border-radius:16px;padding:16px;font-size:12px;color:#7168aa;line-height:1.6}.side-note strong{display:block;color:#494080;font-size:13px;margin-bottom:5px}.main{padding:30px clamp(18px,4vw,54px);max-width:1500px;width:100%;margin:0 auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:30px}.eyebrow{font-size:11px;color:var(--muted);letter-spacing:1.1px;font-weight:800;text-transform:uppercase}.greeting h1{font-size:clamp(24px,3vw,32px);margin:7px 0 5px;letter-spacing:-.8px}.greeting p{margin:0;color:var(--muted);font-size:13px}.top-actions{display:flex;align-items:center;gap:10px}.today-pill{border:1px solid var(--line);background:#fff;padding:11px 14px;border-radius:12px;font-size:12px;color:#606b80;font-weight:650}.avatar{width:42px;height:42px;border-radius:14px;background:#ffe7d4;color:#995d31;display:grid;place-items:center;font-weight:800}.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px}.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;font-weight:650}.stat-icon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-size:17px}.stat-number{font-size:29px;font-weight:800;margin:14px 0 4px;letter-spacing:-.8px}.stat-foot{font-size:11px;color:var(--muted)}.progress-track{height:6px;border-radius:9px;background:#f0eff8;margin-top:13px;overflow:hidden}.progress-fill{height:100%;width:0;background:var(--purple);border-radius:9px;transition:width .25s}.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,.8fr);gap:20px;align-items:start}.panel{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:22px 22px 15px}.panel-head h2{font-size:16px;margin:0 0 5px}.panel-head p{font-size:12px;color:var(--muted);margin:0}.primary{border:0;background:var(--purple);color:white;border-radius:11px;padding:11px 14px;font-weight:700;font-size:12px;box-shadow:0 5px 12px #6558d326}.primary:hover{background:#5144bf}.filters{display:flex;gap:7px;padding:0 22px 17px;overflow:auto}.filter{border:1px solid var(--line);background:#fff;color:#7a8498;border-radius:9px;padding:7px 11px;font-size:11px;white-space:nowrap}.filter.active{border-color:#d5d0ff;background:var(--purple2);color:var(--purple);font-weight:750}.schedule{padding:0 22px 22px}.schedule-row{display:grid;grid-template-columns:62px 16px minmax(0,1fr) 30px;gap:10px;align-items:start;padding:15px 0;border-top:1px solid #f0f2f7}.time{font-size:12px;font-weight:750;padding-top:3px;color:#566178}.timeline{display:flex;justify-content:center;position:relative;height:100%;min-height:54px}.timeline:before{content:"";position:absolute;top:6px;bottom:-22px;width:1px;background:#e8eaf2}.schedule-row:last-child .timeline:before{display:none}.dot{width:9px;height:9px;border-radius:50%;z-index:1;margin-top:5px;background:var(--purple);box-shadow:0 0 0 4px #eeeaff}.task{border-radius:12px;padding:12px 13px;background:#fafbfe;border:1px solid #f0f2f8;transition:.2s}.task.done{opacity:.65}.task.done .task-title{text-decoration:line-through}.task-top{display:flex;align-items:center;gap:8px;justify-content:space-between}.task-title{font-size:13px;font-weight:750}.category{font-size:10px;font-weight:750;padding:5px 8px;border-radius:7px;white-space:nowrap}.cat-Kuliah,.cat-Pekerjaan{background:#eeeaff;color:#6558d3}.cat-Pribadi{background:#e4f6ed;color:#21855a}.cat-Istirahat{background:#fff0df;color:#ad6a20}.cat-Olahraga{background:#e5f1ff;color:#3579c7}.task-desc{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.5}.task-actions{display:flex;gap:4px;justify-content:flex-end}.icon-btn{border:0;background:transparent;color:#a0a8b7;border-radius:8px;width:28px;height:28px}.icon-btn:hover{background:#f1efff;color:var(--purple)}.check{appearance:none;width:18px;height:18px;border:1.5px solid #d8dce7;border-radius:6px;cursor:pointer;margin-top:2px}.check:checked{background:var(--green);border-color:var(--green)}.check:checked:after{content:"✓";display:block;color:#fff;font-size:12px;text-align:center;line-height:16px;font-weight:800}.empty{text-align:center;padding:36px 12px;color:var(--muted);font-size:13px}.right-col{display:grid;gap:20px}.date-card{padding:20px}.date-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.date-card-head h3{margin:0;font-size:14px}.month-nav{display:flex;gap:5px}.month-nav button{border:1px solid var(--line);background:#fff;border-radius:8px;width:28px;height:28px;color:#7e8799}.month-label{text-align:center;font-weight:750;font-size:12px;margin-bottom:15px}.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.weekdays span{font-size:10px;color:#a1a8b6;padding-bottom:8px}.day{height:31px;border:0;border-radius:9px;background:transparent;color:#687389;font-size:11px;position:relative}.day:hover{background:#f3f1ff}.day.muted{color:#c5cad4}.day.selected{background:var(--purple);color:#fff;font-weight:800}.day.has:after{content:"";position:absolute;width:4px;height:4px;border-radius:50%;background:#e99a43;bottom:2px;left:calc(50% - 2px)}.day.selected.has:after{background:#fff}.quote{padding:20px;background:linear-gradient(135deg,#6558d3,#8a7fe8);color:#fff;border-radius:18px;box-shadow:var(--shadow)}.quote .qmark{font-size:28px;opacity:.6;line-height:1}.quote p{font-size:14px;line-height:1.65;margin:7px 0 12px;font-weight:600}.quote span{font-size:11px;opacity:.8}.category-summary{padding:20px}.category-summary h3{font-size:14px;margin:0 0 18px}.cat-row{display:flex;align-items:center;gap:10px;margin:14px 0}.cat-dot{width:9px;height:9px;border-radius:4px}.cat-name{font-size:12px;color:#687389;flex:1}.cat-count{font-size:12px;font-weight:800}.cat-bar{height:5px;background:#f0f1f6;border-radius:9px;margin-top:6px;overflow:hidden}.cat-bar span{display:block;height:100%;border-radius:9px}.modal-backdrop{display:none;position:fixed;inset:0;background:#18203370;z-index:10;align-items:center;justify-content:center;padding:18px}.modal-backdrop.show{display:flex}.modal{width:min(100%,460px);background:#fff;border-radius:20px;padding:25px;box-shadow:0 25px 70px #10152b30}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.modal-head h2{font-size:19px;margin:0}.close{border:0;background:#f2f3f8;border-radius:9px;width:32px;height:32px;font-size:18px;color:#687389}.field{display:grid;gap:7px;margin-bottom:15px}.field label{font-size:12px;font-weight:750;color:#586278}.field input,.field select,.field textarea{width:100%;border:1px solid #e3e7ef;background:#fbfcfe;padding:11px 12px;border-radius:10px;outline:none;color:var(--ink);font-size:13px}.field input:focus,.field select:focus,.field textarea:focus{border-color:#9c93ef;box-shadow:0 0 0 3px #eeeaff}.field textarea{resize:vertical;min-height:72px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}.secondary{border:1px solid var(--line);background:#fff;color:#6c768a;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:700}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);background:#242b40;color:#fff;padding:12px 17px;border-radius:11px;font-size:12px;opacity:0;pointer-events:none;transition:.25s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}footer{text-align:center;color:#a3aaba;font-size:10px;padding:28px 0 4px}
+@media(max-width:950px){.app{grid-template-columns:75px minmax(0,1fr)}.sidebar{padding:24px 10px;align-items:center}.brand{padding:0}.brand-name,.nav-label,.nav button span:not(.ico),.side-note{display:none}.nav{width:100%}.nav button{justify-content:center;padding:13px 0}.nav .ico{font-size:19px}.layout{grid-template-columns:minmax(0,1fr)}.right-col{grid-template-columns:repeat(2,minmax(0,1fr))}.quote{grid-column:span 2}}
+@media(max-width:600px){.app{display:block}.sidebar{position:sticky;top:0;z-index:5;height:auto;padding:10px 14px;border-right:0;border-bottom:1px solid var(--line);flex-direction:row;justify-content:space-between;gap:12px}.brand-icon{width:34px;height:34px}.brand-name{display:block;font-size:15px}.nav-label,.side-note{display:none}.sidebar>div:nth-child(2){flex:1}.nav{display:flex;justify-content:flex-end;gap:3px}.nav button{width:38px;padding:9px 0}.main{padding:22px 14px}.topbar{align-items:flex-start;margin-bottom:22px}.greeting h1{font-size:24px}.greeting p{max-width:220px;line-height:1.5}.today-pill{display:none}.summary{gap:8px}.stat{padding:13px 11px;border-radius:14px}.stat-top{font-size:10px;gap:4px}.stat-icon{width:28px;height:28px;font-size:14px}.stat-number{font-size:23px;margin:12px 0 3px}.stat-foot{font-size:9px}.layout{gap:14px}.panel-head{padding:18px 15px 13px}.panel-head h2{font-size:15px}.filters{padding:0 15px 13px}.schedule{padding:0 13px 15px}.schedule-row{grid-template-columns:47px 10px minmax(0,1fr) 25px;gap:7px}.time{font-size:10px}.task{padding:10px}.task-title{font-size:12px}.category{font-size:9px;padding:4px 6px}.task-desc{font-size:10px}.task-actions .icon-btn{width:24px}.right-col{grid-template-columns:1fr}.quote{grid-column:auto}.form-grid{gap:8px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-icon">◷</div><span class="brand-name">Ruang Hari</span></div>
+  <div style="width:100%">
+    <div class="nav-label">MENU UTAMA</div>
+    <nav class="nav">
+      <button class="active" data-view="all"><span class="ico">▦</span><span>Jadwal Hari Ini</span></button>
+      <button data-view="done"><span class="ico">✓</span><span>Selesai</span></button>
+      <button data-view="pending"><span class="ico">◷</span><span>Belum Selesai</span></button>
+    </nav>
+  </div>
+  <div class="side-note"><strong>✦ Sedikit demi sedikit</strong>Hari yang terencana membantumu fokus pada hal yang penting. Tetap konsisten!</div>
+</aside>
+<main class="main">
+  <header class="topbar">
+    <div class="greeting"><div class="eyebrow" id="longDate">HARI INI</div><h1>Atur harimu, <span style="color:var(--purple)">capai tujuan.</span></h1><p>Setiap langkah kecil adalah kemajuan. Yuk, mulai harimu!</p></div>
+    <div class="top-actions"><div class="today-pill" id="datePill"></div><div class="avatar">RH</div></div>
+  </header>
+  <section class="summary">
+    <div class="stat"><div class="stat-top"><span>Total aktivitas</span><span class="stat-icon" style="background:#eeeaff;color:#6558d3">▦</span></div><div class="stat-number" id="totalStat">0</div><div class="stat-foot">Agenda yang direncanakan</div></div>
+    <div class="stat"><div class="stat-top"><span>Selesai</span><span class="stat-icon" style="background:#e4f6ed;color:#21855a">✓</span></div><div class="stat-number" id="doneStat">0</div><div class="stat-foot" id="doneFoot">Aktivitas terselesaikan</div></div>
+    <div class="stat"><div class="stat-top"><span>Progres hari ini</span><span class="stat-icon" style="background:#fff0df;color:#ad6a20">↗</span></div><div class="stat-number" id="progressStat">0%</div><div class="stat-foot">Terus bergerak menuju target</div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div></div>
+  </section>
+  <div class="layout">
+    <section class="panel">
+      <div class="panel-head"><div><h2 id="scheduleTitle">Agenda Hari Ini</h2><p id="scheduleSubtitle">Susun aktivitasmu satu per satu.</p></div><button class="primary" id="addBtn">＋ Tambah jadwal</button></div>
+      <div class="filters" id="filters">
+        <button class="filter active" data-filter="Semua">Semua</button><button class="filter" data-filter="Kuliah">Kuliah</button><button class="filter" data-filter="Pekerjaan">Pekerjaan</button><button class="filter" data-filter="Pribadi">Pribadi</button><button class="filter" data-filter="Olahraga">Olahraga</button><button class="filter" data-filter="Istirahat">Istirahat</button>
+      </div>
+      <div class="schedule" id="scheduleList"></div>
+    </section>
+    <aside class="right-col">
+      <section class="panel date-card">
+        <div class="date-card-head"><h3>Kalender</h3><div class="month-nav"><button id="prevMonth" aria-label="Bulan sebelumnya">‹</button><button id="nextMonth" aria-label="Bulan berikutnya">›</button></div></div>
+        <div class="month-label" id="monthLabel"></div><div class="weekdays"><span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span></div><div class="days" id="calendarDays"></div>
+      </section>
+      <section class="quote"><div class="qmark">“</div><p id="quoteText">Kamu tidak harus hebat untuk memulai, tetapi kamu harus memulai untuk menjadi hebat.</p><span>— Zig Ziglar</span></section>
+      <section class="panel category-summary"><h3>Ringkasan kategori</h3><div id="categorySummary"></div></section>
+    </aside>
+  </div>
+  <footer>Ruang Hari · Rencanakan dengan sadar, jalani dengan bahagia.</footer>
+</main>
+</div>
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-head"><h2 id="modalTitle">Tambah aktivitas</h2><button class="close" id="closeModal" aria-label="Tutup">×</button></div>
+    <form id="scheduleForm">
+      <input type="hidden" id="editId">
+      <div class="field"><label for="taskName">Nama aktivitas *</label><input id="taskName" required maxlength="80" placeholder="Contoh: Belajar pemrograman"></div>
+      <div class="form-grid"><div class="field"><label for="taskTime">Waktu *</label><input id="taskTime" type="time" required value="08:00"></div><div class="field"><label for="taskCategory">Kategori</label><select id="taskCategory"><option>Kuliah</option><option>Pekerjaan</option><option>Pribadi</option><option>Olahraga</option><option>Istirahat</option></select></div></div>
+      <div class="field"><label for="taskDate">Tanggal *</label><input id="taskDate" type="date" required></div>
+      <div class="field"><label for="taskDesc">Catatan (opsional)</label><textarea id="taskDesc" maxlength="180" placeholder="Tambahkan detail aktivitas..."></textarea></div>
+      <div class="modal-actions"><button type="button" class="secondary" id="cancelBtn">Batal</button><button type="submit" class="primary">Simpan jadwal</button></div>
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const dateObj=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const fmtDate=(s,opts={weekday:'long',day:'numeric',month:'long',year:'numeric'})=>dateObj(s).toLocaleDateString('id-ID',opts);
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let selectedDate=todayISO(), calendarMonth=new Date(), currentView='all', currentFilter='Semua';
+let tasks=[];
+const seed=[
+['06:00','Bangun tidur & merapikan tempat tidur','Pribadi','Mulai pagi dengan rapi dan penuh energi.'],
+['07:00','Sarapan pagi','Istirahat','Isi energi sebelum memulai aktivitas.'],
+['08:00','Belajar / kuliah','Kuliah','Fokus pada materi dan catat hal penting.'],
+['12:00','Istirahat dan makan siang','Istirahat','Jeda sejenak untuk mengisi tenaga.'],
+['13:00','Mengerjakan tugas','Pekerjaan','Selesaikan tugas berdasarkan prioritas.'],
+['16:30','Olahraga ringan','Olahraga','Jalan kaki atau peregangan selama 20–30 menit.'],
+['19:00','Waktu belajar pribadi','Pribadi','Review materi atau kembangkan keterampilan.'],
+['21:30','Persiapan tidur','Istirahat','Kurangi layar dan siapkan rencana esok hari.']
+];
+function loadTasks(){try{const v=localStorage.getItem('ruangHariTasks');if(v!==null){tasks=JSON.parse(v);return}}catch(e){}tasks=seed.map((x,i)=>({id:'seed'+i,date:todayISO(),time:x[0],name:x[1],category:x[2],desc:x[3],done:false}));saveTasks()}
+function saveTasks(){try{localStorage.setItem('ruangHariTasks',JSON.stringify(tasks))}catch(e){}}
+function dayTasks(){return tasks.filter(t=>t.date===selectedDate).sort((a,b)=>a.time.localeCompare(b.time))}
+function render(){
+ const list=dayTasks(),done=list.filter(t=>t.done).length,progress=list.length?Math.round(done/list.length*100):0;
+ $('longDate').textContent=fmtDate(selectedDate,{weekday:'long',day:'numeric',month:'long'}).toUpperCase();
+ $('datePill').textContent=fmtDate(selectedDate,{day:'numeric',month:'short',year:'numeric'});
+ $('totalStat').textContent=list.length;$('doneStat').textContent=done;$('doneFoot').textContent=`${list.length-done} aktivitas masih menunggu`;
+ $('progressStat').textContent=progress+'%';$('progressFill').style.width=progress+'%';
+ $('scheduleTitle').textContent=selectedDate===todayISO()?'Agenda Hari Ini':fmtDate(selectedDate,{day:'numeric',month:'long'});
+ $('scheduleSubtitle').textContent=list.length?`${list.length} aktivitas terjadwal untuk hari ini.`:'Belum ada aktivitas. Tambahkan jadwal pertamamu!';
+ const filtered=list.filter(t=>(currentView==='all'||(currentView==='done'?t.done:!t.done))&&(currentFilter==='Semua'||t.category===currentFilter));
+ $('scheduleList').innerHTML=filtered.length?filtered.map(t=>`<div class="schedule-row">
+ <div class="time">${escapeHTML(t.time)}</div><div class="timeline"><span class="dot" style="background:${t.done?'#22a06b':catColor(t.category)};box-shadow:0 0 0 4px ${t.done?'#e4f6ed':catPale(t.category)}"></span></div>
+ <div class="task ${t.done?'done':''}"><div class="task-top"><span class="task-title">${escapeHTML(t.name)}</span><span class="category cat-${t.category}">${escapeHTML(t.category)}</span></div>${t.desc?`<div class="task-desc">${escapeHTML(t.desc)}</div>`:''}</div>
+ <div class="task-actions"><input class="check" type="checkbox" aria-label="Tandai selesai" ${t.done?'checked':''} onchange="toggleTask('${t.id}',this.checked)"><button class="icon-btn" title="Edit" aria-label="Edit" onclick="editTask('${t.id}')">✎</button><button class="icon-btn" title="Hapus" aria-label="Hapus" onclick="deleteTask('${t.id}')">×</button></div></div>`).join(''):`<div class="empty"><div style="font-size:28px;margin-bottom:8px">☀</div>${list.length?'Tidak ada aktivitas untuk filter ini.':'Hari yang kosong bisa jadi awal yang baru.'}<br><button class="primary" style="margin-top:14px" onclick="openModal()">＋ Tambah aktivitas</button></div>`;
+ renderCalendar();renderCategories(list);
+}
+function catColor(c){return {'Kuliah':'#6558d3','Pekerjaan':'#6558d3','Pribadi':'#22a06b','Olahraga':'#4b8fe8','Istirahat':'#e99a43'}[c]||'#6558d3'}
+function catPale(c){return {'Kuliah':'#eeeaff','Pekerjaan':'#eeeaff','Pribadi':'#e4f6ed','Olahraga':'#e5f1ff','Istirahat':'#fff0df'}[c]||'#eeeaff'}
+function renderCalendar(){
+ const y=calendarMonth.getFullYear(),m=calendarMonth.getMonth();$('monthLabel').textContent=calendarMonth.toLocaleDateString('id-ID',{month:'long',year:'numeric'});
+ const first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate(),prevN=new Date(y,m,0).getDate();let out='';
+ for(let i=0;i<42;i++){let day,dt,muted=false;if(i<first){day=prevN-first+i+1;dt=new Date(y,m-1,day);muted=true}else if(i>=first+n){day=i-first-n+1;dt=new Date(y,m+1,day);muted=true}else{day=i-first+1;dt=new Date(y,m,day)}
+ const iso=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+ if(i>=first+n&&i>=35)continue;
+ const has=tasks.some(t=>t.date===iso);
+ out+=`<button class="day ${muted?'muted':''} ${iso===selectedDate?'selected':''} ${has?'has':''}" onclick="selectDate('${iso}')">${day}</button>`;
+ }
+ $('calendarDays').innerHTML=out;
+}
+function renderCategories(list){const cats=['Kuliah','Pekerjaan','Pribadi','Olahraga','Istirahat'];$('categorySummary').innerHTML=cats.map(c=>{const n=list.filter(t=>t.category===c).length,p=list.length?Math.round(n/list.length*100):0;return `<div class="cat-row"><span class="cat-dot" style="background:${catColor(c)}"></span><span class="cat-name">${c}<div class="cat-bar"><span style="width:${p}%;background:${catColor(c)}"></span></div></span><span class="cat-count">${n}</span></div>`}).join('')}
+function selectDate(d){selectedDate=d;currentView='all';document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view==='all'));render()}
+function toggleTask(id,v){const t=tasks.find(t=>t.id===id);if(t){t.done=v;saveTasks();render();toast(v?'Aktivitas ditandai selesai.':'Aktivitas dikembalikan ke daftar.')}} 
+function deleteTask(id){const t=tasks.find(t=>t.id===id);if(!t)return;if(confirm(`Hapus jadwal "${t.name}"?`)){tasks=tasks.filter(t=>t.id!==id);saveTasks();render();toast('Jadwal berhasil dihapus.')}} 
+function openModal(t=null){$('scheduleForm').reset();$('editId').value=t?t.id:'';$('modalTitle').textContent=t?'Edit aktivitas':'Tambah aktivitas';$('taskName').value=t?t.name:'';$('taskTime').value=t?t.time:'08:00';$('taskCategory').value=t?t.category:'Pribadi';$('taskDate').value=t?t.date:selectedDate;$('taskDesc').value=t?t.desc:'';$('modalBackdrop').classList.add('show');setTimeout(()=>$('taskName').focus(),50)}
+function editTask(id){const t=tasks.find(t=>t.id===id);if(t)openModal(t)}
+function closeModal(){$('modalBackdrop').classList.remove('show')}
+function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2400)}
+$('addBtn').onclick=()=>openModal();$('closeModal').onclick=closeModal;$('cancelBtn').onclick=closeModal;
+$('modalBackdrop').addEventListener('click',e=>{if(e.target===$('modalBackdrop'))closeModal()});
+$('scheduleForm').addEventListener('submit',e=>{e.preventDefault();const id=$('editId').value,entry={id:id||'t'+Date.now(),name:$('taskName').value.trim(),time:$('taskTime').value,category:$('taskCategory').value,date:$('taskDate').value,desc:$('taskDesc').value.trim(),done:false};if(!entry.name)return;if(id){const old=tasks.find(t=>t.id===id);entry.done=old?old.done:false;tasks=tasks.map(t=>t.id===id?entry:t)}else tasks.push(entry);selectedDate=entry.date;calendarMonth=dateObj(entry.date);saveTasks();closeModal();render();toast(id?'Jadwal berhasil diperbarui.':'Jadwal baru berhasil ditambahkan.')});
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{currentView=b.dataset.view;document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x===b));render()}));
+document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{currentFilter=b.dataset.filter;document.querySelectorAll('.filter').forEach(x=>x.classList.toggle('active',x===b));render()}));
+$('prevMonth').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1);renderCalendar()};
+$('nextMonth').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1);renderCalendar()};
+const quotes=['Kamu tidak harus hebat untuk memulai, tetapi kamu harus memulai untuk menjadi hebat.','Fokus pada kemajuan, bukan kesempurnaan.','Satu hal pada satu waktu. Berikan yang terbaik untuk saat ini.'];
+$('quoteText').textContent=quotes[new Date().getDate()%quotes.length];
+loadTasks();calendarMonth=dateObj(selectedDate);render();
+</script>
+</body>
+</html>
