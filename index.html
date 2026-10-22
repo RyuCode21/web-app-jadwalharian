@@ -1,1 +1,91 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catatan Saya</title>
+</head>
+<body>
+  <h1>Catatan Saya</h1>
+
+  <form id="formCatatan">
+    <input
+      id="isiCatatan"
+      type="text"
+      maxlength="500"
+      placeholder="Tulis catatan..."
+      required
+    >
+    <button type="submit">Simpan</button>
+  </form>
+
+  <p id="status"></p>
+  <ul id="daftarCatatan"></ul>
+
+  <script type="module">
+    import { createClient } from
+      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    // Ganti dengan data project Supabase kamu
+    const SUPABASE_URL = 'https://PROJECT_ID.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_GANTI_DENGAN_KEY_KAMU';
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const form = document.getElementById('formCatatan');
+    const input = document.getElementById('isiCatatan');
+    const daftar = document.getElementById('daftarCatatan');
+    const status = document.getElementById('status');
+
+    async function tampilkanCatatan() {
+      status.textContent = 'Memuat catatan...';
+
+      const { data, error } = await supabase
+        .from('catatan')
+        .select('id, isi, created_at')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        status.textContent = 'Gagal memuat: ' + error.message;
+        return;
+      }
+
+      daftar.replaceChildren();
+
+      for (const catatan of data) {
+        const item = document.createElement('li');
+        item.textContent = catatan.isi;
+        daftar.appendChild(item);
+      }
+
+      status.textContent = `Total catatan: ${data.length}`;
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const isi = input.value.trim();
+      if (!isi) return;
+
+      const { error } = await supabase
+        .from('catatan')
+        .insert({ isi });
+
+      if (error) {
+        status.textContent = 'Gagal menyimpan: ' + error.message;
+        return;
+      }
+
+      input.value = '';
+      await tampilkanCatatan();
+    });
+
+    tampilkanCatatan();
+  </script>
+</body>
+</html>
+
